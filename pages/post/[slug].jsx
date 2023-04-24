@@ -1,11 +1,9 @@
-import React from 'react';
+import client from 'src/sanity';
 import Author from 'src/UI/Author/Author';
+import styles from 'styles/Post.module.scss';
 import Image from 'next/image';
 import { useNextSanityImage } from 'next-sanity-image';
-
 import { PortableText } from '@portabletext/react';
-import client from 'src/sanity';
-import styles from 'styles/Post.module.scss';
 
 const Post = ({ post, author }) => {
   const {
@@ -40,7 +38,7 @@ const Post = ({ post, author }) => {
       <div className={styles.heading}>
         <h1>{title}</h1>
         <p>{subtitle}</p>
-        <Author author={getAuthor} publishedAt={publishedAt} />
+        <Author author={getAuthor} date={publishedAt} />
       </div>
       <article className={styles.content}>
         <div className={styles.image}>
@@ -55,7 +53,7 @@ const Post = ({ post, author }) => {
 export default Post;
 
 export const getStaticPaths = async () => {
-  const query = `*[_type == 'post' && defined(slug.current)[]].slug.current`;
+  const query = `*[_type == "post" && defined(slug.current)[]].slug.current`;
   const paths = await client.fetch(query);
 
   return {
@@ -67,10 +65,10 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const { slug = '' } = context.params;
 
-  const query = `*[_type == 'post' && slug.current == "${slug}" ][0]`;
+  const query = `*[_type == "post" && slug.current == "${slug}"][0]`;
   const post = await client.fetch(query);
 
-  const author = await client.fetch(`*[_type=="author"]`);
+  const author = await client.fetch(`*[_type == "author"]`);
 
   return {
     props: {
