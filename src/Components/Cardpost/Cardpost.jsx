@@ -18,13 +18,13 @@ const Cardpost = ({ post, author }) => {
     slug,
   } = post || {};
 
-  const imageProps = useNextSanityImage(client, mainImage);
+  const { src, height, width } = useNextSanityImage(client, mainImage);
   const getAuthor = author.find((author) => author._id === authorRef._ref);
 
   return (
     <div className={styles.post}>
       <div className={styles.image}>
-        <Image {...imageProps} alt={title} />
+        <Image src={src} alt={title} width={width} height={height} priority />
       </div>
       <div className={styles.content}>
         <h2 className="h3">{title}</h2>

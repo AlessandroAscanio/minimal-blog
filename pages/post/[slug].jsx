@@ -4,6 +4,7 @@ import styles from 'styles/Post.module.scss';
 import Image from 'next/image';
 import { useNextSanityImage } from 'next-sanity-image';
 import { PortableText } from '@portabletext/react';
+import useSanityImage from 'src/hooks/useSanityImage';
 
 const Post = ({ post, author }) => {
   const {
@@ -17,6 +18,7 @@ const Post = ({ post, author }) => {
 
   const getAuthor = author?.find((author) => author._id === authorRef._ref);
   const imageProps = useNextSanityImage(client, mainImage);
+  const imageUrl = useSanityImage();
 
   const ptComponents = {
     types: {
@@ -24,9 +26,13 @@ const Post = ({ post, author }) => {
         if (!value.asset._ref) return null;
         return (
           <Image
+            src={imageUrl(value).url()}
             alt={title || 'minimal blog'}
             loading="lazy"
-            {...useNextSanityImage(client, value)}
+            width={450}
+            height="auto"
+            priority
+            // {...useNextSanityImage(client, value)}
           />
         );
       },

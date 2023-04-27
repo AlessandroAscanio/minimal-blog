@@ -9,15 +9,23 @@ import styles from './Footer.module.scss';
 import Logo from 'src/UI/Logo/Logo';
 
 const social = [
-  { component: <AiFillInstagram />, url: '*' },
-  { component: <IoLogoWhatsapp />, url: '*' },
-  { component: <MdEmail />, url: '*' },
-  { component: <BsTelegram />, url: '*' },
+  {
+    component: <AiFillInstagram />,
+    url: 'https://instagram.com',
+    target: '_blank',
+  },
+  {
+    component: <IoLogoWhatsapp />,
+    url: 'https://whatsapp.com',
+    target: '_blank',
+  },
+  { component: <MdEmail />, url: '#' },
+  { component: <BsTelegram />, url: 'htts://telegram.com', target: '_blank' },
 ];
 
 const Footer = () => {
   const renderSocial = social.map((el, i) => (
-    <a href={el.url} key={i}>
+    <a href={el.url} key={i} target={el.target}>
       {el.component}
     </a>
   ));
